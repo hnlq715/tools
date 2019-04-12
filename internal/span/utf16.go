@@ -15,16 +15,16 @@ import (
 // This is used to convert from the native (always in bytes) column
 // representation and the utf16 counts used by some editors.
 func ToUTF16Column(p Point, content []byte) (int, error) {
+	offset := p.Column()
 	if content == nil {
 		return -1, fmt.Errorf("ToUTF16Column: missing content")
 	}
 	if !p.HasPosition() {
 		return -1, fmt.Errorf("ToUTF16Column: point is missing position")
 	}
-	if !p.HasOffset() {
-		return -1, fmt.Errorf("ToUTF16Column: point is missing offset")
+	if p.HasOffset() {
+		offset = p.Offset()
 	}
-	offset := p.Offset()
 	col := p.Column()
 	if col == 1 {
 		// column 1, so it must be chr 1
